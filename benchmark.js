@@ -62,9 +62,10 @@ function logTime(key, time) {
 
         });
 
-
+        // The string to hold the CSV interpretation of the array before writing to file.
         var csvString = toCSV(writeArray);
 
+        // Write the CSV string to a valid CSV file.
         fs.writeFile("sprintrlog.csv", csvString, function(err) {
             if(err) {
                 return console.log(err);
@@ -72,30 +73,39 @@ function logTime(key, time) {
 
             console.log("The file was saved!");
         });
+
     }
 
 }
 
-// Generate test orders
+// Generate test users, up to the limit in the TEST_USERS constant.
 function testUserCreation() {
+    // Set max for file writing.
     max = TEST_USERS;
+
+    // Create blank array of test users.
     var testUsers = [];
 
+    // Populate array of test users.
     for (var i = 0; i < TEST_USERS; i++) {
         testUsers.push(i);
 
     }
 
+    // Iterate test user array.
     testUsers.forEach(function(u, i){
         // Generate fake user info...
         var userEmail = faker.internet.email();
         var userFirstName = faker.name.firstName();
         var userLastName = faker.name.lastName();
 
+        // Log.
         console.log('Request ' + i);
 
+        // Get start time with nanosecond precision.
         var start = now();
 
+        // Perform synchronous HTTP user creation request with fake generated values.
         var res = request('POST', BASE_URL + 'users/create', {
             json: { email: userEmail,
                 password: 'test',
@@ -108,11 +118,14 @@ function testUserCreation() {
 
         });
 
+        // Run request synchronously.
         prompt.start();
 
-    }
+}
 
+// Generate test orderes, up to the limit in the TEST_ORDERS constant.
 function testOrderCreation() {
+    // Set max for file writing.
     max = TEST_ORDERS;
     var testOrders = [];
 
